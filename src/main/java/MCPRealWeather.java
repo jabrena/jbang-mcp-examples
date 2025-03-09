@@ -27,7 +27,7 @@ public class MCPRealWeather {
   private static final String COORDINATES_API_URL = "https://geocoding-api.open-meteo.com/v1/search?name=%s&format=json";
 
   @Tool(description = "A tool to get the current weather a given city and country code")
-  public static String getWeather(
+  public String getWeather(
     @ToolArg(description = "The city to get the weather for") String city, 
     @ToolArg(description = "The country code to get the weather for") String countryCode) {
 
