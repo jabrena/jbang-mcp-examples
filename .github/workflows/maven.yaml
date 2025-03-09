@@ -14,4 +14,5 @@ jobs:
         with:
           distribution: 'graalvm' # See 'Supported distributions' for available options
           java-version: '23'
-      - run: ./mvnw --batch-mode --no-transfer-progress verify --file pom.xml
+      - name: Maven package
+        run: ./mvnw --batch-mode --no-transfer-progress verify --file pom.xml
