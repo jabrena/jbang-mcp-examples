@@ -1,0 +1,43 @@
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    restart: unless-stopped
+    networks:
+      - mcp-network
+
+  ollama-ui:
+    image: ghcr.io/ollama-webui/ollama-webui:latest
+    container_name: ollama-ui
+    ports:
+      - "3000:8080"
+    environment:
+      - OLLAMA_API_BASE_URL=http://ollama:11434/api
+    depends_on:
+      - ollama
+    restart: unless-stopped
+    networks:
+      - mcp-network
+
+  jbang:
+    build:
+      context: .
+      dockerfile: Dockerfile.jbang
+    container_name: jbang-mcp
+    command: mcp-calculator@jabrena
+    depends_on:
+      - ollama
+    restart: "no"
+    networks:
+      - mcp-network
+
+volumes:
+  ollama_data:
+
+networks:
+  mcp-network:
+    driver: bridge 

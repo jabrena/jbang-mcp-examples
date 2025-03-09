@@ -1,0 +1,29 @@
+FROM eclipse-temurin:23-jdk-alpine
+
+# Add labels for better maintainability
+LABEL maintainer="MCP Examples"
+LABEL description="JBang container for running MCP calculator scripts"
+
+# Install curl and bash (needed for JBang install script)
+RUN apk add --no-cache curl bash
+
+# Set working directory
+WORKDIR /app
+
+# Install JBang and check where it's installed
+RUN curl -Ls https://sh.jbang.dev | bash -s - app setup && \
+    echo "Checking where JBang is installed:" && \
+    find / -name jbang -type f 2>/dev/null
+
+# Add JBang to PATH by sourcing the env file created by the installer
+SHELL ["/bin/bash", "-c"]
+RUN source ~/.bashrc && \
+    jbang version && \
+    jbang trust add https://github.com/jabrena && \
+    jbang app install --fresh mcp-calculator@jabrena
+
+# Set the default command
+CMD ["bash", "-c", "source ~/.bashrc && jbang \"$@\"", "--"] 
+
+# Review this idea:
+# https://github.com/jbangdev/jbang-action/blob/main/Dockerfile
