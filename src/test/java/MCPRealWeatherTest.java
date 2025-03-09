@@ -1,4 +1,4 @@
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -69,7 +69,7 @@ public class MCPRealWeatherTest {
     
     @Test
     void testGetWeatherSuccess() throws Exception {
-        // Setup mock responses
+        // Given
         mockCoordinatesServer.enqueue(new MockResponse()
             .setBody(SAMPLE_COORDINATES_RESPONSE)
             .setResponseCode(200)
@@ -80,58 +80,55 @@ public class MCPRealWeatherTest {
             .setResponseCode(200)
             .addHeader("Content-Type", "application/json"));
         
-        // Call the method under test
+        // When
         String result = weatherService.getWeather(SAMPLE_CITY, SAMPLE_COUNTRY);
         
-        // Verify results
-        assertTrue(result.contains("20.5°C"), "Result should contain temperature");
-        assertTrue(result.contains("12.3 km/h"), "Result should contain wind speed");
-        assertTrue(result.contains("Partly cloudy"), "Result should contain weather condition");
+        // Then
+        assertThat(result).contains("20.5°C");
+        assertThat(result).contains("12.3 km/h");
+        assertThat(result).contains("Partly cloudy");
         
         // Verify request to coordinates API
         RecordedRequest coordinatesRequest = mockCoordinatesServer.takeRequest();
-        assertTrue(coordinatesRequest.getPath().contains(SAMPLE_CITY), 
-            "Should contain city name in coordinates request");
+        assertThat(coordinatesRequest.getPath()).contains(SAMPLE_CITY);
         
         // Verify request to forecast API
         RecordedRequest forecastRequest = mockForecastServer.takeRequest();
-        assertTrue(forecastRequest.getPath().contains("52.52"), 
-            "Should contain correct latitude in forecast request");
-        assertTrue(forecastRequest.getPath().contains("13.41"), 
-            "Should contain correct longitude in forecast request");
+        assertThat(forecastRequest.getPath()).contains("52.52");
+        assertThat(forecastRequest.getPath()).contains("13.41");
     }
     
     @Test
     void testGetWeatherCoordinatesNotFound() {
-        // Setup mock responses with empty results
+        // Given
         mockCoordinatesServer.enqueue(new MockResponse()
             .setBody("{ \"results\": [] }")
             .setResponseCode(200)
             .addHeader("Content-Type", "application/json"));
         
-        // Call the method under test
+        // When
         String result = weatherService.getWeather(SAMPLE_CITY, SAMPLE_COUNTRY);
         
-        // Verify results
-        assertEquals(String.format("Sorry, I couldn't find the weather for %s, %s", SAMPLE_CITY, SAMPLE_COUNTRY), result);
+        // Then
+        assertThat(result).isEqualTo(String.format("Sorry, I couldn't find the weather for %s, %s", SAMPLE_CITY, SAMPLE_COUNTRY));
     }
     
     @Test
     void testGetWeatherCoordinatesServerError() {
-        // Setup mock responses with server error
+        // Given
         mockCoordinatesServer.enqueue(new MockResponse()
             .setResponseCode(500));
         
-        // Call the method under test
+        // When
         String result = weatherService.getWeather(SAMPLE_CITY, SAMPLE_COUNTRY);
         
-        // Verify results
-        assertEquals(String.format("Sorry, I couldn't find the weather for %s, %s", SAMPLE_CITY, SAMPLE_COUNTRY), result);
+        // Then
+        assertThat(result).isEqualTo(String.format("Sorry, I couldn't find the weather for %s, %s", SAMPLE_CITY, SAMPLE_COUNTRY));
     }
     
     @Test
     void testGetWeatherForecastServerError() throws Exception {
-        // Setup mock responses
+        // Given
         mockCoordinatesServer.enqueue(new MockResponse()
             .setBody(SAMPLE_COORDINATES_RESPONSE)
             .setResponseCode(200)
@@ -140,16 +137,16 @@ public class MCPRealWeatherTest {
         mockForecastServer.enqueue(new MockResponse()
             .setResponseCode(500));
         
-        // Call the method under test
+        // When
         String result = weatherService.getWeather(SAMPLE_CITY, SAMPLE_COUNTRY);
         
-        // Verify results
-        assertEquals(String.format("Sorry, I couldn't find the weather for %s, %s", SAMPLE_CITY, SAMPLE_COUNTRY), result);
+        // Then
+        assertThat(result).isEqualTo(String.format("Sorry, I couldn't find the weather for %s, %s", SAMPLE_CITY, SAMPLE_COUNTRY));
     }
     
     @Test
     void testCountryCodeMatching() {
-        // Test with uppercase country code
+        // Given
         mockCoordinatesServer.enqueue(new MockResponse()
             .setBody(SAMPLE_COORDINATES_RESPONSE)
             .setResponseCode(200));
@@ -158,10 +155,13 @@ public class MCPRealWeatherTest {
             .setBody(SAMPLE_WEATHER_RESPONSE)
             .setResponseCode(200));
         
+        // When
         String result = weatherService.getWeather(SAMPLE_CITY, "DE");
-        assertTrue(result.contains("20.5°C"));
         
-        // Test with lowercase country code
+        // Then
+        assertThat(result).contains("20.5°C");
+        
+        // Given
         mockCoordinatesServer.enqueue(new MockResponse()
             .setBody(SAMPLE_COORDINATES_RESPONSE)
             .setResponseCode(200));
@@ -170,7 +170,10 @@ public class MCPRealWeatherTest {
             .setBody(SAMPLE_WEATHER_RESPONSE)
             .setResponseCode(200));
         
+        // When
         result = weatherService.getWeather(SAMPLE_CITY, "de");
-        assertTrue(result.contains("20.5°C"));
+        
+        // Then
+        assertThat(result).contains("20.5°C");
     }
 } 
