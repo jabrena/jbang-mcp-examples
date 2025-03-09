@@ -4,22 +4,21 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>info.jab.demo</groupId>
-  <artifactId>maven-demo</artifactId>
+  <groupId>info.jab.ai</groupId>
+  <artifactId>mcp-examples</artifactId>
   <version>1.0-SNAPSHOT</version>
 
-  <name>maven-demo</name>
-  <!-- FIXME change it to the project's website -->
-  <url>http://www.example.com</url>
-
   <properties>
+    <java.version>23</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.release>23</maven.compiler.release>
-    
+
     <!-- Dependencies Versions -->
-    <quarkus.version>3.17.6</quarkus.version>
+    <quarkus-bom.version>3.19.2</quarkus-bom.version>
+    <quarkus-mcp.version>1.0.0.Beta4</quarkus-mcp.version>
+    <okhttp.version>3.14.9</okhttp.version>
+    <langchain4j.version>1.0.0-beta1</langchain4j.version>
     <junit.version>5.11.0</junit.version>
-    <quarkus-mcp.version>1.0.0.Alpha2</quarkus-mcp.version>
+    <jackson.version>2.18.3</jackson.version>
   </properties>
 
   <dependencyManagement>
@@ -27,7 +26,7 @@
       <dependency>
         <groupId>io.quarkus</groupId>
         <artifactId>quarkus-bom</artifactId>
-        <version>${quarkus.version}</version>
+        <version>${quarkus-bom.version}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -55,8 +54,42 @@
       <groupId>io.quarkiverse.mcp</groupId>
       <artifactId>quarkus-mcp-server-stdio</artifactId>
     </dependency>
+    <dependency>
+      <groupId>dev.langchain4j</groupId>
+      <artifactId>langchain4j</artifactId>
+      <version>${langchain4j.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.squareup.okhttp3</groupId>
+      <artifactId>okhttp</artifactId>
+      <version>${okhttp.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
   </dependencies>
 
   <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.13.0</version>
+        <configuration>
+          <compilerArgument>-Xlint:all</compilerArgument><!-- -Werror -->
+          <compilerArgument>--enable-preview</compilerArgument>
+          <release>${java.version}</release>
+          <compilerArgs>--enable-preview</compilerArgs>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>versions-maven-plugin</artifactId>
+        <version>2.18.0</version>
+      </plugin>
+    </plugins>
   </build>
 </project>
