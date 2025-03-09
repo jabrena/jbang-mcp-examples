@@ -1,7 +1,10 @@
 ///usr/bin/env jbang "$0" "$@" ; exit $?
 //DEPS com.squareup.okhttp3:okhttp:3.14.9
 //DEPS com.fasterxml.jackson.core:jackson-databind:2.18.3
-//DEPS dev.langchain4j:langchain4j:1.0.0-beta1
+//DEPS io.quarkus:quarkus-bom:3.17.6@pom
+//DEPS io.quarkiverse.mcp:quarkus-mcp-server-stdio:1.0.0.Alpha2
+//DEPS io.quarkus:quarkus-qute
+//FILES application.properties
 
 import java.io.IOException;
 import java.util.Optional;
@@ -11,18 +14,22 @@ import java.util.stream.StreamSupport;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import dev.langchain4j.agent.tool.Tool;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+
+import io.quarkiverse.mcp.server.Tool;
+import io.quarkiverse.mcp.server.ToolArg;
 
 public class MCPRealWeather {
 
   private static final String FORECAST_API_URL = "https://api.open-meteo.com/v1/forecast?latitude=%s&longitude=%s&current_weather=true";
   private static final String COORDINATES_API_URL = "https://geocoding-api.open-meteo.com/v1/search?name=%s&format=json";
 
-  @Tool("A tool to get the current weather a given city and country code")
-  public static String getWeather(String city, String countryCode) {
+  @Tool(description = "A tool to get the current weather a given city and country code")
+  public static String getWeather(
+    @ToolArg(description = "The city to get the weather for") String city, 
+    @ToolArg(description = "The country code to get the weather for") String countryCode) {
 
     double[] coords = getCoordinates(city, countryCode);
     if (coords == null) {
