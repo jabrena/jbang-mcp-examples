@@ -14,7 +14,4 @@ jobs:
         with:
           distribution: 'graalvm' # See 'Supported distributions' for available options
           java-version: '23'
-      - uses: actions/setup-maven@v4
-        with:
-          maven-version: '3.11.0'
       - run: ./mvnw --batch-mode --no-transfer-progress verify --file pom.xml
