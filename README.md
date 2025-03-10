@@ -9,7 +9,7 @@ jbang ./src/main/java/MCPRealWeather.java
 jbang mcp-calculator@jabrena
 jbang mcp-realweather@jabrena
 
-docker build -t mcp-calculator -f Dockerfile.jbang .
+docker build -t mcp-calculator -f Dockerfile .
 docker compose up -d
 docker compose down
 
@@ -22,5 +22,6 @@ docker compose down
 
 - https://github.com/quarkiverse/quarkus-mcp-servers/blob/main/jdbc/README.md
 - https://github.com/punkpeye/awesome-mcp-servers
+- https://github.com/jbangdev/jbang-action
 
 Powered by [Cursor](https://www.cursor.com/)
