@@ -14,6 +14,7 @@ docker build -t mcp-calculator -f Dockerfile .
 docker compose up -d
 docker compose down
 docker compose logs mcp-calculator
+http://localhost:3000/
 
 ./mvnw versions:display-dependency-updates
 ./mvnw versions:display-plugin-updates
