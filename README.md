@@ -10,8 +10,10 @@ jbang mcp-calculator@jabrena
 jbang mcp-realweather@jabrena
 
 docker build -t mcp-calculator -f Dockerfile .
+
 docker compose up -d
 docker compose down
+docker compose logs mcp-calculator
 
 ./mvnw versions:display-dependency-updates
 ./mvnw versions:display-plugin-updates
