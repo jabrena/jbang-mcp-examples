@@ -15,9 +15,7 @@ services:
     container_name: ollama-ui
     ports:
       - "3000:8080"
-    environment:
-      - WEBUI_AUTH=False 
-      - WEBUI_NAME=WebUI   
+    environment:  
       - OLLAMA_API_BASE_URL=http://ollama:11434/api
     depends_on:
       - ollama
@@ -32,10 +30,6 @@ services:
       - ./src/main/java:/scripts/java
     environment:
       - INPUT_SCRIPT=/scripts/java/MCPCalculator.java
-      - MCP_OLLAMA_HOST=ollama
-      - MCP_OLLAMA_PORT=11434
-      - MCP_OLLAMA_MODEL=llama3
-      - MCP_ENABLED=true
     restart: unless-stopped
     depends_on:
       - ollama
