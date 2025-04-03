@@ -1,6 +1,6 @@
 ///usr/bin/env jbang "$0" "$@" ; exit $?
-//DEPS io.quarkus:quarkus-bom:3.19.2@pom
-//DEPS io.quarkiverse.mcp:quarkus-mcp-server-stdio:1.0.0.Beta4
+//DEPS io.quarkus:quarkus-bom:3.21.1@pom
+//DEPS io.quarkiverse.mcp:quarkus-mcp-server-stdio:1.0.0
 //FILES application.properties
 
 import io.quarkiverse.mcp.server.Tool;

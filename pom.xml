@@ -9,16 +9,22 @@
   <version>1.0-SNAPSHOT</version>
 
   <properties>
-    <java.version>23</java.version>
+    <java.version>24</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
     <!-- Dependencies Versions -->
-    <quarkus-bom.version>3.19.2</quarkus-bom.version>
-    <quarkus-mcp.version>1.0.0.Beta4</quarkus-mcp.version>
+    <quarkus-bom.version>3.21.1</quarkus-bom.version>
+    <quarkus-mcp.version>1.0.0</quarkus-mcp.version>
     <okhttp.version>3.14.9</okhttp.version>
     <junit.version>5.12.0</junit.version>
     <jackson.version>2.18.3</jackson.version>
     <assertj.version>3.27.3</assertj.version>
+    <mockito.version>5.16.1</mockito.version>
+    <langchain4j.version>0.25.0</langchain4j.version>
+
+    <!-- Plugin Versions -->
+    <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+    <versions-maven-plugin.version>2.18.0</versions-maven-plugin.version>
   </properties>
 
   <dependencyManagement>
@@ -34,6 +40,11 @@
         <groupId>io.quarkiverse.mcp</groupId>
         <artifactId>quarkus-mcp-server-stdio</artifactId>
         <version>${quarkus-mcp.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.quarkiverse.langchain4j</groupId>
+        <artifactId>quarkus-langchain4j-ollama</artifactId>
+        <version>${langchain4j.version}</version>
       </dependency>
 
       <dependency>
@@ -87,13 +98,13 @@
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-junit-jupiter</artifactId>
-      <version>5.3.1</version>
+      <version>${mockito.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.squareup.okhttp3</groupId>
       <artifactId>mockwebserver</artifactId>
-      <version>3.14.9</version>
+      <version>${okhttp.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -103,7 +114,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.13.0</version>
+        <version>${maven-compiler-plugin.version}</version>
         <configuration>
           <compilerArgument>-Xlint:all</compilerArgument><!-- -Werror -->
           <compilerArgument>--enable-preview</compilerArgument>
@@ -114,7 +125,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>versions-maven-plugin</artifactId>
-        <version>2.18.0</version>
+        <version>${versions-maven-plugin.version}</version>
       </plugin>
     </plugins>
   </build>
