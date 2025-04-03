@@ -8,8 +8,6 @@ LABEL "org.opencontainers.image.version"="0.124.0"
 LABEL "org.opencontainers.image.revision"="44067df3442654cb0d612fa76b9032f06ca7a799"
 
 COPY assembly/* /
-COPY src/main/java/MCPStopWatch.java /scripts/
-COPY src/main/java/application.properties /scripts/
 
 ## mkdir of .userPrefs is to fix https://github.com/jbangdev/jbang/issues/1831
 RUN jar xf jbang-0.124.0.zip && \
@@ -29,4 +27,4 @@ ENV JBANG_DIR="/jbang/.jbang"
 COPY entrypoint /bin/entrypoint
 RUN chmod +x /bin/entrypoint
 
-CMD ["/bin/entrypoint", "/scripts/MCPStopWatch.java"]
+CMD ["/bin/entrypoint"]

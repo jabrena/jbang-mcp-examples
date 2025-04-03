@@ -11,7 +11,8 @@ jbang ./src/main/java/MCPStopWatch.java
 jbang mcp-calculator@jabrena
 jbang mcp-realweather@jabrena
 
-docker build -t mcp-calculator -f Dockerfile .
+docker build -t mcp-stopwatch -f Dockerfile .
+docker run mcp-stopwatch
 
 docker compose up -d
 docker compose down
