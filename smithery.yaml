@@ -7,10 +7,4 @@ startCommand:
   commandFunction:
     # A function that produces the CLI command to start the MCP on stdio.
     |-
-    (config) => ({
-      "command": "jbang",
-      "args": [
-        "mcp-stopwatch@jabrena"
-      ],
-      "env": { }
-    })
+    (config) => ({command: 'jbang', args: ['mcp-stopwatch@jabrena']})    
