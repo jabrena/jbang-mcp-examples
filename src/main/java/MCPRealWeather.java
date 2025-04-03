@@ -1,6 +1,7 @@
 ///usr/bin/env jbang "$0" "$@" ; exit $?
-//DEPS io.quarkus:quarkus-bom:3.19.2@pom
-//DEPS io.quarkiverse.mcp:quarkus-mcp-server-stdio:1.0.0.Beta4
+//DEPS io.quarkus:quarkus-bom:3.21.1@pom
+//DEPS io.quarkiverse.mcp:quarkus-mcp-server-stdio:1.0.0
+//FILES application.properties
 //DEPS com.squareup.okhttp3:okhttp:3.14.9
 //DEPS com.fasterxml.jackson.core:jackson-databind:2.18.3
 //FILES application.properties
